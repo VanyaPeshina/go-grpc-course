@@ -1,0 +1,1 @@
+protoc greet.proto --go_out=.
