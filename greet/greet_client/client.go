@@ -16,6 +16,7 @@ func main() {
 	if err != nil {
 		lof.Fatalf("couldn't connect: %v", err)
 	}
+
 	defer conn.Close()
 
 	c := greetpb.NewGreetServiceClient(conn)
@@ -65,6 +66,7 @@ func doServerStreaming(c greetpb.GreetServiceClient) {
 		if err != nil {
 			log.Fatalf("error while reading stream: %v", err)
 		}
+
 		log.Printf("Response from GreetManyTimes RPC:%v", msg.GetResult())
 	}
 }
@@ -78,21 +80,25 @@ func doClientStreaming(c greetpb.GreetServiceClient) {
 				FirstName: "Stephane",
 			},
 		},
+
 		&greetpb.LongGreetRequest{
 			Greeting: &greetpb.Greeting{
 				FirstName: "John",
 			},
 		},
+
 		&greetpb.LongGreetRequest{
 			Greeting: &greetpb.Greeting{
 				FirstName: "Lucy",
 			},
 		},
+
 		&greetpb.LongGreetRequest{
 			Greeting: &greetpb.Greeting{
 				FirstName: "Ivan",
 			},
 		},
+
 		&greetpb.LongGreetRequest{
 			Greeting: &greetpb.Greeting{
 				FirstName: "Piper",
@@ -129,21 +135,25 @@ func doBiDiStreaming(c greetpb.GreetServiceClient) {
 				FirstName: "Stephane",
 			},
 		},
+
 		&greetpb.GreetEveryoneRequest{
 			Greeting: &greetpb.Greeting{
 				FirstName: "John",
 			},
 		},
+
 		&greetpb.GreetEveryoneRequest{
 			Greeting: &greetpb.Greeting{
 				FirstName: "Lucy",
 			},
 		},
+
 		&greetpb.GreetEveryoneRequest{
 			Greeting: &greetpb.Greeting{
 				FirstName: "Ivan",
 			},
 		},
+
 		&greetpb.GreetEveryoneRequest{
 			Greeting: &greetpb.Greeting{
 				FirstName: "Piper",
