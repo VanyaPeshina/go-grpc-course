@@ -11,4 +11,6 @@ This is a repository for a [GRPC Golang course](http://bit.ly/grpc-golang-github
 
 # Additional links
 
+- grpc-go: https://github.com/grpc/grpc-go
 - auth: https://grpc.io/docs/guides/auth/
+- reflection: https://github.com/grpc/grpc-go/tree/master/reflection

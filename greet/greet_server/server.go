@@ -9,6 +9,11 @@ import (
 	"net"
 	"strconv"
 	"time"
+
+	"github.com/VanyaPeshina/go-grpc-course/tree/master/greet/greetpb"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/reflection"
+	"google.golang.org/grpc/status"
 )
 
 type server struct{}
@@ -73,11 +78,13 @@ func (*server) GreetEveryone(stream *greetpb.GreetService_GreetEveryoneServer) e
 			log.Fatalf("Error while reading client stream: %v", err)
 			return err
 		}
+
 		firstName := req.GetGreeting().GetFirstName()
 		result := "Hello " + firstName + "! "
 		sendErr := stream.Send(&greetpb.GreetEveryoneResponse{
 			Result: result,
 		})
+
 		if sendErr != nil {
 			log.Fatalf("Error while sending client stream: %v", sendErr)
 			return sendErr
@@ -130,6 +137,9 @@ func main() {
 
 	s := grpc.NewServer(opts...)
 	greetpb.RegisterServer(s, &server{})
+
+	// Register reflection service on gRPC server.
+	reflection.Register(s)
 
 	if err := s.Server(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)

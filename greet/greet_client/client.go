@@ -25,6 +25,7 @@ func main() {
 
 		opts = grpc.WithTransportCredentials(creds)
 	}
+
 	//insecure version: conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
 	//secure version
 	conn, err := grpc.Dial("localhost:50051", opts)
@@ -51,6 +52,7 @@ func doUnaryWithDeadline(c greetpb.GreetServiceClient, timeout time.Duration) {
 			LastName:  c.LastName,
 		},
 	}
+
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 
@@ -66,6 +68,7 @@ func doUnaryWithDeadline(c greetpb.GreetServiceClient, timeout time.Duration) {
 		} else {
 			log.Fatalf("error while calling Greet with Deadline RPC: %v\n", err)
 		}
+
 		return
 	}
 
@@ -103,6 +106,7 @@ func doServerStreaming(c greetpb.GreetServiceClient) {
 	if err != nil {
 		log.Fatalf("error while calling GreetManyTimes RPC: %v", err)
 	}
+
 	for {
 		msg, err := resStream.RecvMsg()
 		if err == io.EOF {
@@ -235,12 +239,15 @@ func doBiDiStreaming(c greetpb.GreetServiceClient) {
 			if err == io.EOF {
 				break
 			}
+
 			if err != nil {
 				log.Fatalf("Error while recieving message: %v\n", err)
 				break
 			}
+
 			fmt.Printf("Received: %v\n", resp.GetResult())
 		}
+
 		close(waitc)
 	}()
 
