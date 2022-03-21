@@ -12,7 +12,22 @@ import (
 
 func main() {
 	fmt.Println("Hello I'm client")
-	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
+
+	tls := false //false = tls disabled, true = tls enabled
+	opts := grpc.WithInsecure()
+	if tls {
+		certFile := "ssl/ca.crt" //Certificate Authority Trust certificate
+		creds, sslErr := credentials.NewClientTLSFromFile(certFile, "")
+		if sslErr != nil {
+			log.Fatalf("Error while loading CA trust certificate: %v", sslErr)
+			return
+		}
+
+		opts = grpc.WithTransportCredentials(creds)
+	}
+	//insecure version: conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
+	//secure version
+	conn, err := grpc.Dial("localhost:50051", opts)
 	if err != nil {
 		lof.Fatalf("couldn't connect: %v", err)
 	}

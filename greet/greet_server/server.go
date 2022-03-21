@@ -114,7 +114,21 @@ func main() {
 		log.Fatalf("Failed to listed: %v", err)
 	}
 
-	s := grpc.NewServer()
+	opts := []grpc.ServerOption{}
+	tls := false //false = tls disabled, true = tls enabled
+	if tls {
+		certFile := "ssl/server.crt"
+		keyFile := "ssl/server.pem"
+		creds, sslErr := credentials.NewServerTLSFile(certFile, keyFile)
+		if sslErr != nil {
+			log.Fatalf("Failed loading certificates: %v", sslErr)
+			return
+		}
+
+		opts = append(opts, grpc.Creds(creds))
+	}
+
+	s := grpc.NewServer(opts...)
 	greetpb.RegisterServer(s, &server{})
 
 	if err := s.Server(lis); err != nil {
