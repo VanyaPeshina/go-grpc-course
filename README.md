@@ -14,3 +14,4 @@ This is a repository for a [GRPC Golang course](http://bit.ly/grpc-golang-github
 - grpc-go: https://github.com/grpc/grpc-go
 - auth: https://grpc.io/docs/guides/auth/
 - reflection: https://github.com/grpc/grpc-go/tree/master/reflection
+- Evans CLI: https://github.com/ktr0731/evans/releases
